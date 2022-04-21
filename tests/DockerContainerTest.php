@@ -104,6 +104,28 @@ class DockerContainerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_mix_writeable_and_readonly_volumes()
+    {
+        $command = $this->container
+            ->setVolume('/on/my/host', '/on/my/container')
+            ->setReadonlyVolume('/data', '/data')
+            ->getStartCommand();
+
+        $this->assertEquals('docker run -v /on/my/host:/on/my/container -v /data:/data:ro -d --rm spatie/docker', $command);
+    }
+
+    /** @test */
+    public function it_can_set_readonly_volumes()
+    {
+        $command = $this->container
+            ->setReadonlyVolume('/on/my/host', '/on/my/container')
+            ->setReadonlyVolume('/data', '/data')
+            ->getStartCommand();
+
+        $this->assertEquals('docker run -v /on/my/host:/on/my/container:ro -v /data:/data:ro -d --rm spatie/docker', $command);
+    }
+
+    /** @test */
     public function it_can_set_labels()
     {
         $command = $this->container

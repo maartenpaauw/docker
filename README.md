@@ -116,11 +116,13 @@ $containerInstance = DockerContainer::create($imageName)
 #### Setting Volumes
 
 You can set volumes using the `setVolume` method. To add multiple arguments, just call `setVolume` multiple times.
+If you want to mount a read-only volume, use the `setReadonlyVolume` method.
 
 ```php
 $containerInstance = DockerContainer::create($imageName)
     ->setVolume($pathOnHost, $pathOnDocker)
     ->setVolume($anotherPathOnHost, $anotherPathOnDocker)
+    ->setReadonlyVolume($anotherPathOnHost, $anotherPathOnDocker)
     ->start();
 ```
 

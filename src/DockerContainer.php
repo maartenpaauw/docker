@@ -24,7 +24,7 @@ class DockerContainer
     /** @var EnvironmentMapping[] */
     public array $environmentMappings = [];
 
-    /** @var VolumeMapping[] */
+    /** @var array<VolumeMapping|ReadonlyVolumeMapping> */
     public array $volumeMappings = [];
 
     /** @var LabelMapping[] */
@@ -116,6 +116,15 @@ class DockerContainer
     public function setVolume(string $pathOnHost, string $pathOnDocker): self
     {
         $this->volumeMappings[] = new VolumeMapping($pathOnHost, $pathOnDocker);
+
+        return $this;
+    }
+
+    public function setReadonlyVolume(string $pathOnHost, string $pathOnDocker): self
+    {
+        $this->volumeMappings[] = new ReadonlyVolumeMapping(
+            new VolumeMapping($pathOnHost, $pathOnDocker),
+        );
 
         return $this;
     }
